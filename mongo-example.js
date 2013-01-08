@@ -1,3 +1,9 @@
+/* Install node-mongodb-native by doing:
+ *  npm install mongodb
+ * See documentation at https://github.com/christkv/node-mongodb-native#readme
+ * Run this with:
+ *  node mongo-example.js
+ */
 var mongodb = require("mongodb");
 
 var server = new mongodb.Server("127.0.0.1", 27017, {});
