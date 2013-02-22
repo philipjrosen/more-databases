@@ -36,8 +36,9 @@ var postMessages = function(request, response){
 			string += data
 		});
 		request.on('end', function(){
-  		query = dbConnection.query('INSERT INTO megatesttable SET ?', JSON.parse(string), function(err, result){} );
-			globals.messageLog.push(data);
+  		// query = dbConnection.query('INSERT INTO megatesttable SET ?', JSON.parse(string), function(err, result){} );
+      orm.message.create(JSON.parse(string));
+			globals.messageLog.push(string);
 			fs.writeFile('log.txt', globals.messageLog);
 			response.end();
 		});
