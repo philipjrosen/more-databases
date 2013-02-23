@@ -12,11 +12,7 @@ orm.message.sync().success(function() {
   // newMessage.save().success(function() {
     // Retrieve objects from the database:
     orm.message.findAll({}).success(function(usrs) {
-      // This function is called back with an array of matches.
-      for (var i = 0; i < usrs.length; i++) {
-        //console.log(JSON.stringify(usrs[i]));
-        globals.messageLog.push(JSON.stringify(usrs[i]));
-      }
+      globals.messageLog = usrs;
     });
 //  });
 });
@@ -24,7 +20,6 @@ orm.message.sync().success(function() {
 
 var returnMessages = function(request, response){
 		response.writeHead(200, globals.defaultCorsHeaders);
-    //console.log("messageLog: " + globals.messageLog);
 		response.end(JSON.stringify(globals.messageLog));
 };
 
@@ -37,9 +32,9 @@ var postMessages = function(request, response){
 		});
 		request.on('end', function(){
   		// query = dbConnection.query('INSERT INTO megatesttable SET ?', JSON.parse(string), function(err, result){} );
-      orm.message.create(JSON.parse(string));
-			globals.messageLog.push(string);
-			fs.writeFile('log.txt', globals.messageLog);
+      var obj = JSON.parse(string);
+      orm.message.create(obj);
+			globals.messageLog.push(obj);
 			response.end();
 		});
 };
