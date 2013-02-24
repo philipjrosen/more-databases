@@ -20,10 +20,9 @@
       success: function(data){
       $('.content').html("");
         $.each(data, function(index, item) {
-          var parsedData = JSON.parse(item);
-          console.log("parsedData: ");
-          if (parsedData.text) {
-            $('.content').append(renderMessage(parsedData));
+          console.log("item: ");
+          if (item.text) {
+            $('.content').append(renderMessage(item));
           }
         });
 

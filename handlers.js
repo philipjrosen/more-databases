@@ -4,23 +4,20 @@ var orm = require('./orm-example');
 
 /* .sync() makes Sequelize create the database table for us if it doesn't
  *  exist already: */
-orm.message.sync().success(function() {
-
-
-  // now instantiate an object and save it:
-  // var newMessage = orm.message.build({username: "John Valjean", text: "This is my Message", roomname: "Test"});
-  // newMessage.save().success(function() {
-    // Retrieve objects from the database:
-    orm.message.findAll({}).success(function(usrs) {
-      globals.messageLog = usrs;
+orm.message.sync(); //.success(function() {});
+ // Retrieve objects from the database:
+// orm.message.findAll({}).success(function(usrs) {
+//       globals.messageLog = usrs;
+//     });
+var messages = [];
+orm.message.findAll().success(function(usrs) {
+  console.log("Inside ORM");
+  messages = usrs;
     });
-//  });
-});
-
 
 var returnMessages = function(request, response){
 		response.writeHead(200, globals.defaultCorsHeaders);
-		response.end(JSON.stringify(globals.messageLog));
+		response.end(JSON.stringify(messages));
 };
 
 var postMessages = function(request, response){
@@ -31,10 +28,9 @@ var postMessages = function(request, response){
 			string += data
 		});
 		request.on('end', function(){
-  		// query = dbConnection.query('INSERT INTO megatesttable SET ?', JSON.parse(string), function(err, result){} );
       var obj = JSON.parse(string);
       orm.message.create(obj);
-			globals.messageLog.push(obj);
+			messages.push(obj);
 			response.end();
 		});
 };
